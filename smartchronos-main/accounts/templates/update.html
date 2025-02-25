@@ -4,7 +4,7 @@
 
 
     <div class="container mt-5">
-        <h1 class="text-center mb-4">Lista de Funcionários</h1>
+        <h1 class="text-center mb-4">Atualizar Funcionários</h1>
         <ul class="list-group">
 
             {% for employee in list_employees %}
@@ -15,10 +15,7 @@
                     <strong>Nome:</strong> {{employee.first_name}} {{employee.last_name}}
                 </div>
                 <div>
-                    <a href="{% url "list-time-records" employee.id %}" class="btn btn-outline-secondary btn-sm">
-                        <i class="bi bi-watch"></i>
-                    </a>
-                    {% comment %} <a href="{% url "update_user" update.id %}">Atualizar</a> {% endcomment %}
+                    <a href='{% url "update_user" update_user.pk %}'>Atualizar</a>
                 </div>
             </li>
             

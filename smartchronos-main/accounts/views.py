@@ -67,17 +67,21 @@ def logout_user_manager(request):
     logout(request)
     return redirect('home')
 
-def update_user(request, user_id):
+def update(request):
+    # update(request)
+    list_employees = CustomUser.objects.all()
+    return render(request, 'update.html', {'list_employees': list_employees})
+
+def update_user(request, pk):
     # Verifica se o usuário está autenticado e é um gerente
     if not request.user.is_authenticated or not request.user.is_manager:
         messages.error(request, "Você não tem permissão para atualizar usuários.")
         return redirect("home")
 
-    # Obtém o usuário que será atualizado
-    user = get_object_or_404(CustomUser, id=user_id)
+    # Busca o usuário existente pelo ID
+    user = get_object_or_404(CustomUser, pk=pk)
 
     if request.method == 'POST':
-        # Obtém os dados do POST
         username = request.POST.get('username')
         password = request.POST.get('password')
         registration = request.POST.get('registration')
@@ -88,34 +92,32 @@ def update_user(request, user_id):
         # Verificação de campos obrigatórios
         if not all([username, registration, first_name, last_name, option]):
             messages.error(request, "Todos os campos são obrigatórios.")
-            return redirect("update_user", user_id=user_id)
+            return redirect("update_user", pk=pk)
 
-        # Verifica se o nome de usuário já existe (exceto para o próprio usuário)
-        if CustomUser.objects.filter(username=username).exclude(id=user_id).exists():
+        # Verifica se o nome de usuário já existe (excluindo o próprio usuário)
+        if CustomUser.objects.filter(username=username).exclude(pk=pk).exists():
             messages.error(request, "Nome de usuário já existe. Escolha outro.")
-            return redirect("update_user", user_id=user_id)
+            return redirect("update_user", pk=pk)
 
         # Atualiza os campos do usuário
         user.username = username
+        if password:  # Atualiza a senha apenas se foi fornecida
+            user.set_password(password)
         user.registration = registration
         user.first_name = first_name
         user.last_name = last_name
-
-        # Se uma nova senha foi fornecida, atualiza a senha
-        if password:
-            user.set_password(password)
-
         user.save()
 
-        # Atualiza o grupo do usuário
-        group, created = UserGroup.objects.get_or_create(user=user)
-        group.option = option
-        group.save()
+        # Atualiza ou cria o grupo associado ao usuário
+        group, created = UserGroup.objects.get_or_create(option=option, defaults={'user': user})
+        if not created:
+            group.user = user  # Se o grupo já existia, associamos o usuário
+            group.save()
 
         messages.success(request, f'Usuário {first_name} atualizado com sucesso!')
         return redirect("dashboard")
 
-    # Se não for um POST, renderiza a página de atualização de usuário
+    # Renderiza o formulário de atualização com os dados atuais do usuário
     return render(request, 'update_user.html', {'user': user})
 
 
