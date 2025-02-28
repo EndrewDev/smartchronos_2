@@ -36,6 +36,10 @@
                         <option value="CHEFE" {% if user.usergroup.option == "CHEFE" %}selected{% endif %}>Chefe</option>
                     </select>
                 </div>
+                {% comment %} <div class="mb-3 form-check">
+                    <input type="checkbox" class="form-check-input" id="is_manager" name="is_manager">
+                    <label class="form-check-label text-light" for="is_manager">Permissão validar?</label>
+                </div> {% endcomment %}
                 <button type="submit" class="btn btn-primary w-100">Atualizar</button>
             </form>
         </div>

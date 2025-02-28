@@ -13,7 +13,7 @@
                 <div>
                     <strong>Matrícula:</strong> {{employee.registration}}<br>
                     <strong>Nome:</strong> {{employee.first_name}} {{employee.last_name}}<br>
-                    <strong>Cargo:</strong> {{group.option}}
+                    <strong>Cargo:</strong> {{employee.option}}
                 </div>
                 <div>
                     <a href="{% url "list-time-records" employee.id %}" class="btn btn-outline-secondary btn-sm">

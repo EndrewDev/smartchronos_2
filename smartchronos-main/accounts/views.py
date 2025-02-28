@@ -20,6 +20,7 @@ def create_user(request):
         first_name = request.POST.get('first_name')
         last_name = request.POST.get('last_name')
         option = request.POST.get("option")
+        # is_manager = request.POST.get("is_manager") == "on"
 
         # Verificação de campos obrigatórios
         if not all([username, password, registration, first_name, last_name, option]):
@@ -35,7 +36,9 @@ def create_user(request):
             password=password,
             registration=registration,
             first_name=first_name,
-            last_name=last_name
+            last_name=last_name,
+            option=option,
+            # is_manager=is_manager
         )
 
         # # Criando e associando grupo (se necessário)
@@ -83,6 +86,8 @@ def update_user(request, pk):
         first_name = request.POST.get('first_name')
         last_name = request.POST.get('last_name')
         option = request.POST.get("option")
+        # is_manager = request.POST.get("is_manager") == "on"
+        
 
         # Verificação de campos obrigatórios
         if not all([username, registration, first_name, last_name, option]):
@@ -101,6 +106,8 @@ def update_user(request, pk):
         user.registration = registration
         user.first_name = first_name
         user.last_name = last_name
+        user.option = option
+        # is_manager=is_manager
         # Não vai consegui entra do controle
         # user.is_active = False
         user.save()
