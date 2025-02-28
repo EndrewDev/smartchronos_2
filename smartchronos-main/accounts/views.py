@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
-from .models import CustomUser, UserGroup
+from .models import CustomUser
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.views.generic import UpdateView
@@ -38,11 +38,11 @@ def create_user(request):
             last_name=last_name
         )
 
-        # Criando e associando grupo (se necessário)
-        group, created = UserGroup.objects.get_or_create(option=option, defaults={'user': user})
-        if not created:
-            group.user = user  # Se o grupo já existia, associamos o usuário
-            group.save()
+        # # Criando e associando grupo (se necessário)
+        # group, created = UserGroup.objects.get_or_create(option=option, defaults={'user': user})
+        # if not created:
+        #     group.user = user  # Se o grupo já existia, associamos o usuário
+        #     group.save()
 
         messages.success(request, f'Usuário {first_name} cadastrado com sucesso!')
         return redirect("dashboard")
@@ -66,11 +66,6 @@ def login_user_manager(request, register, password):
 def logout_user_manager(request):
     logout(request)
     return redirect('home')
-
-def update(request):
-    # update(request)
-    list_employees = CustomUser.objects.all()
-    return render(request, 'update.html', {'list_employees': list_employees})
 
 def update_user(request, pk):
     # Verifica se o usuário está autenticado e é um gerente
@@ -106,13 +101,15 @@ def update_user(request, pk):
         user.registration = registration
         user.first_name = first_name
         user.last_name = last_name
+        # Não vai consegui entra do controle
+        # user.is_active = False
         user.save()
 
         # Atualiza ou cria o grupo associado ao usuário
-        group, created = UserGroup.objects.get_or_create(option=option, defaults={'user': user})
-        if not created:
-            group.user = user  # Se o grupo já existia, associamos o usuário
-            group.save()
+        # group, created = UserGroup.objects.get_or_create(option=option, defaults={'user': user})
+        # if not created:
+        #     group.user = user  # Se o grupo já existia, associamos o usuário
+        #     group.save()
 
         messages.success(request, f'Usuário {first_name} atualizado com sucesso!')
         return redirect("dashboard")

@@ -29,12 +29,12 @@
                     <label for="last_name" class="form-label text-light">Último Nome</label>
                     <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Digite o último nome" required>
                 </div>
-                <div class"mb-3">
-                    <label for="option" class="form-label text-ligth">Cargo:</label>
-                    <select name="option" id="option">
-                        <option value="FUNCIONARIO">Funcionário</option>
-                        <option value="GERENTE">Gerente</option>
-                        <option value="CHEFE">Chefe</option>
+                <div class="mb-3">
+                    <label for="option" class="form-label text-light">Cargo:</label>
+                    <select name="option" id="option" class="form-control">
+                        <option value="FUNCIONARIO" {% if user.usergroup.option == "FUNCIONARIO" %}selected{% endif %}>Funcionário</option>
+                        <option value="GERENTE" {% if user.usergroup.option == "GERENTE" %}selected{% endif %}>Gerente</option>
+                        <option value="CHEFE" {% if user.usergroup.option == "CHEFE" %}selected{% endif %}>Chefe</option>
                     </select>
                 </div>
                 <button type="submit" class="btn btn-primary w-100">Cadastrar</button>

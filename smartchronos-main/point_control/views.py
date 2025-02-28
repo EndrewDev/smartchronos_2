@@ -16,7 +16,7 @@ def employee_list(request):
     return render(request, 'employee_list.html', {'list_employees': list_employees})
 
 def list_time_records(request, pk):
-    user = CustomUser.objects.get(pk=pk)
+    user = CustomUser.objects.get(pk=pk) 
     last_records = WorkPointRecord.objects.filter(user__pk=pk).order_by('-created_at')[:5]
     
     return render(request, 'time_records_list.html', {'last_records': last_records, 'user': user})

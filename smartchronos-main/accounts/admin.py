@@ -1,4 +1,4 @@
-from .models import CustomUser, UserGroup
+from .models import CustomUser
 from django.contrib import admin
 
 # Register your models here.
@@ -12,16 +12,16 @@ from django.contrib import admin
 admin.site.register(CustomUser)
 
 
-@admin.register(UserGroup)
-class UserGroupAdmin(admin.ModelAdmin):
-    list_display = ('user', 'get_group_display')
-    list_filter = ('option',)
-    search_fields = ('user__username',)
+# @admin.register(UserGroup)
+# class UserGroupAdmin(admin.ModelAdmin):
+#     list_display = ('user', 'get_group_display')
+#     list_filter = ('option',)
+#     search_fields = ('user__username',)
 
-    def get_group_display(self, obj):
-        return obj.get_option_display()
+#     def get_group_display(self, obj):
+#         return obj.get_option_display()
     
-    get_group_display.short_description = "Group"
+#     get_group_display.short_description = "Group"
 
 
 # admin.site.register(UserGroup, UserGroupAdmin)
