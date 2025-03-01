@@ -13,7 +13,7 @@ class CustomUser(AbstractUser):
     registration = models.CharField(max_length=20)
     phone_number = models.CharField(max_length=11, blank=True, null=True)
     is_manager = models.BooleanField(default=False, null=True, blank=True)
-    option = models.CharField(max_length=20, choices=GROUP_CHOICES)
+    option = models.CharField(max_length=20, choices=GROUP_CHOICES, default='FUNCIONARIO')
     
     # problema com a criação do usuário e a senha
     def __str__(self):
